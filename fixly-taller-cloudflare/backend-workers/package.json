@@ -1,0 +1,36 @@
+{
+  "name": "fixly-taller-workers-api",
+  "version": "1.0.0",
+  "description": "Fixly Taller SaaS API con Cloudflare Workers",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral --target=esnext",
+    "test": "jest",
+    "db:migrate": "wrangler d1 execute fixly-taller-db --file=../database/migrations/001_initial.sql",
+    "db:seed": "wrangler d1 execute fixly-taller-db --file=../database/seeds/initial_data.sql"
+  },
+  "dependencies": {
+    "mercadopago": "^2.0.11",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.22.4",
+    "hono": "^3.12.0",
+    "@hono/node-server": "^1.8.2",
+    "date-fns": "^3.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/bcryptjs": "^2.4.6",
+    "esbuild": "^0.19.9",
+    "wrangler": "^3.19.0",
+    "typescript": "^5.3.3",
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8"
+  },
+  "author": "Fixly Taller",
+  "license": "MIT"
+}

@@ -1,0 +1,48 @@
+name = "fixly-taller-api"
+main = "src/index.ts"
+compatibility_date = "2023-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers configuration
+[build]
+command = "npm run build"
+
+# Environment variables
+[env.production.vars]
+ENVIRONMENT = "production"
+MERCADOPAGO_ACCESS_TOKEN = ""
+MERCADOPAGO_PUBLIC_KEY = ""
+JWT_SECRET = ""
+EMAIL_API_KEY = ""
+
+# Database D1 binding
+[[d1_databases]]
+binding = "DB"
+database_name = "fixly-taller-db"
+database_id = ""
+
+# KV for sessions and cache
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = ""
+preview_id = ""
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = ""
+preview_id = ""
+
+# Routes configuration
+[triggers]
+crons = ["0 */6 * * *"]  # Check subscriptions every 6 hours
+
+# Custom domains
+[[routes]]
+pattern = "api.fixly-taller.com/*"
+zone_name = "fixly-taller.com"
+
+# CORS configuration
+[cors]
+origins = ["https://fixly-taller.com", "https://www.fixly-taller.com"]
+methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+headers = ["Content-Type", "Authorization"]
