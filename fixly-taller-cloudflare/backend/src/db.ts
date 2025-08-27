@@ -1,9 +1,8 @@
 // src/db.ts
+export default pool;
 import { Pool } from "pg";
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // ssl: { rejectUnauthorized: false } // habilitar si tu proveedor lo requiere
+  ssl: { rejectUnauthorized: false } // necesario en Railway
 });
-
-export default pool;
