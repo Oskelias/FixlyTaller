@@ -1,8 +1,9 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 
-// Para leer JSON del body
+app.use(cors());
 app.use(express.json({ type: ["application/json", "text/plain"] }));
 
 // Salud
@@ -10,31 +11,17 @@ app.get("/health", (_req, res) => res.send("ok"));
 
 // Webhook de Mercado Pago
 app.post("/webhook", (req, res) => {
-  const action =
-    (req.body?.action as string) || (req.query["action"] as string) || "";
-  const topic =
-    (req.body?.type as string) ||
-    (req.query["topic"] as string) ||
-    (req.query["type"] as string) ||
-    "";
-  const paymentId =
-    req.body?.data?.id ||
-    (req.query["data.id"] as string) ||
-    (req.query["id"] as string) ||
-    null;
+  const action = req.body?.action || req.query["action"];
+  const type = req.body?.type || req.query["type"];
+  const paymentId = req.body?.data?.id || req.query["data.id"];
 
-  console.log("[MP WEBHOOK]", {
-    action,
-    topic,
-    paymentId,
-    query: req.query,
-    body: req.body,
-  });
+  console.log("[WEBHOOK MP]", { action, type, paymentId, body: req.body, query: req.query });
 
-  // SIEMPRE responder 200 para que MP no reintente
+  // SIEMPRE responder 200 OK, aunque no proceses nada aún
   res.sendStatus(200);
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server listening on :${port}`));
-
+app.listen(port, () => {
+  console.log(`Fixly backend running on port ${port}`);
+});
