@@ -1,66 +1,40 @@
-import "dotenv/config";
 import express from "express";
-import cors from "cors";
-import { MercadoPagoConfig, Preference } from "mercadopago";
 
 const app = express();
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") || "*" }));
-app.use(express.json());
 
-// Healthcheck
-app.get("/healthz", (_req, res) => res.json({ ok: true }));
+// Para leer JSON del body
+app.use(express.json({ type: ["application/json", "text/plain"] }));
 
-// SDK Mercado Pago
-const mp = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN as string,
-});
+// Salud
+app.get("/health", (_req, res) => res.send("ok"));
 
-// Crear preferencia (Checkout Pro)
-app.post("/api/payments/create", async (req, res) => {
-  try {
-    const { title = "Plan Fixly", price = 1000, quantity = 1 } = req.body ?? {};
-    const pref = new Preference(mp);
+// Webhook de Mercado Pago
+app.post("/webhook", (req, res) => {
+  const action =
+    (req.body?.action as string) || (req.query["action"] as string) || "";
+  const topic =
+    (req.body?.type as string) ||
+    (req.query["topic"] as string) ||
+    (req.query["type"] as string) ||
+    "";
+  const paymentId =
+    req.body?.data?.id ||
+    (req.query["data.id"] as string) ||
+    (req.query["id"] as string) ||
+    null;
 
-    const r = await pref.create({
-      body: {
-        items: [{
-          id: "plan-fixly",                     // requerido por tipos
-          title: String(title),
-          quantity: Number(quantity) || 1,
-          unit_price: Number(price) || 1000,
-          currency_id: "ARS",                   // o "USD" si preferís
-        }],
-        back_urls: {
-          success: `${process.env.FRONT_URL}/pago/success`,
-          failure: `${process.env.FRONT_URL}/pago/failure`,
-          pending: `${process.env.FRONT_URL}/pago/pending`,
-        },
-        notification_url: process.env.MP_WEBHOOK_URL, // puede ser undefined
-        auto_return: "approved",
-      },
-    });
+  console.log("[MP WEBHOOK]", {
+    action,
+    topic,
+    paymentId,
+    query: req.query,
+    body: req.body,
+  });
 
-    res.json({
-      id: r.id,
-      init_point: r.init_point,
-      sandbox_init_point: r.sandbox_init_point,
-    });
-  } catch (e: any) {
-    console.error("create preference error:", e);
-    const status = e?.status || 400;
-    res.status(status).json({
-      message: e?.message || "mp error",
-      cause: e?.cause || e?.error || null,
-    });
-  }
-});
-
-
-// Webhook (simple)
-app.post("/api/payments/mp/webhook", (req, res) => {
-  console.log("MP webhook:", req.body);
+  // SIEMPRE responder 200 para que MP no reintente
   res.sendStatus(200);
 });
 
-const port = Number(process.env.PORT || 4000);
-app.listen(port, () => console.log(`API escuchando en :${port}`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server listening on :${port}`));
+
