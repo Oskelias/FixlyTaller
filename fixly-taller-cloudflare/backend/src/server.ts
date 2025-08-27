@@ -61,3 +61,15 @@ app.post("/webhook", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Fixly backend running on port ${port}`));
+import { pool } from "./db";  // asegurate de tener db.ts configurado
+
+// Endpoint de prueba para la DB
+app.get("/dbtest", async (_req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({ db_time: result.rows[0].now });
+  } catch (err) {
+    console.error("DB error", err);
+    res.status(500).json({ error: "No se pudo conectar a la DB" });
+  }
+});
