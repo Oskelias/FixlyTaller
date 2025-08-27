@@ -1,5 +1,4 @@
-// src/payments.ts
-import pool from "./db";
+import { pool } from "./db";
 
 export type PaymentRow = {
   mp_payment_id: number;
@@ -10,13 +9,29 @@ export type PaymentRow = {
   external_reference?: string | null;
   payer_email?: string | null;
   live_mode?: boolean | null;
-  date_created?: string | null;   // ISO
-  date_approved?: string | null;  // ISO
-  raw: any;                       // objeto completo
+  date_created?: string | null;
+  date_approved?: string | null;
+  raw: any;
 };
 
 export async function upsertPayment(p: PaymentRow) {
   const q = `
+    CREATE TABLE IF NOT EXISTS payments (
+      id bigserial PRIMARY KEY,
+      mp_payment_id bigint UNIQUE NOT NULL,
+      status text,
+      status_detail text,
+      transaction_amount numeric(12,2),
+      currency_id text,
+      external_reference text,
+      payer_email text,
+      live_mode boolean,
+      date_created timestamptz,
+      date_approved timestamptz,
+      raw jsonb NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now()
+    );
     INSERT INTO payments (
       mp_payment_id, status, status_detail, transaction_amount, currency_id,
       external_reference, payer_email, live_mode, date_created, date_approved, raw, created_at, updated_at
@@ -52,21 +67,8 @@ export async function upsertPayment(p: PaymentRow) {
     p.raw
   ];
 
-  const { rows } = await pool.query(q, values);
-  return rows[0];
-  import { upsertPayment } from "./payments";
-await upsertPayment({
-  mp_payment_id: pago.id,
-  status: pago.status,
-  status_detail: pago.status_detail,
-  transaction_amount: pago.transaction_amount,
-  currency_id: pago.currency_id,
-  external_reference: pago.external_reference,
-  payer_email: pago.payer?.email ?? null,
-  live_mode: pago.live_mode,
-  date_created: pago.date_created,
-  date_approved: pago.date_approved,
-  raw: pago
-});
-
+  // Ejecuta CREATE TABLE + UPSERT en una sola llamada
+  const res = await pool.query(q, values);
+  return res.rows[0];
 }
+
