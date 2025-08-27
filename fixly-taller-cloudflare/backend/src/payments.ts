@@ -54,4 +54,19 @@ export async function upsertPayment(p: PaymentRow) {
 
   const { rows } = await pool.query(q, values);
   return rows[0];
+  import { upsertPayment } from "./payments";
+await upsertPayment({
+  mp_payment_id: pago.id,
+  status: pago.status,
+  status_detail: pago.status_detail,
+  transaction_amount: pago.transaction_amount,
+  currency_id: pago.currency_id,
+  external_reference: pago.external_reference,
+  payer_email: pago.payer?.email ?? null,
+  live_mode: pago.live_mode,
+  date_created: pago.date_created,
+  date_approved: pago.date_approved,
+  raw: pago
+});
+
 }
