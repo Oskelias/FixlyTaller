@@ -1,8 +1,6 @@
-// src/db.ts
-export default pool;
 import { Pool } from "pg";
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false } // necesario en Railway
+  ssl: { rejectUnauthorized: false } // Railway/managed PG suele requerir SSL
 });
