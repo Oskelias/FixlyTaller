@@ -1,0 +1,21 @@
+-- 001_create_payments.sql
+CREATE TABLE IF NOT EXISTS payments (
+  id                bigserial PRIMARY KEY,
+  mp_payment_id     bigint UNIQUE NOT NULL,       -- id de MP (paymentId)
+  status            text,
+  status_detail     text,
+  transaction_amount numeric(12,2),
+  currency_id       text,
+  external_reference text,
+  payer_email       text,
+  live_mode         boolean,
+  date_created      timestamptz,
+  date_approved     timestamptz,
+
+  raw               jsonb NOT NULL,               -- payload completo para auditoría
+
+  created_at        timestamptz NOT NULL DEFAULT now(),
+  updated_at        timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_payments_external_ref ON payments (external_reference);
