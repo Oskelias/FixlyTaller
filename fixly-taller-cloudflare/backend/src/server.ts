@@ -82,4 +82,28 @@ app.post("/webhook", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Fixly backend running on port ${port}`));
+import express from "express";
+import cors from "cors";
+import { pool } from "./db";  // <- importa la conexión
+
+const app = express();
+app.use(cors());
+app.use(express.json({ type: ["application/json", "text/plain"] }));
+
+app.get("/health", (_req, res) => res.send("ok"));
+
+// ✅ TEST de DB
+app.get("/dbtest", async (_req, res) => {
+  try {
+    const r = await pool.query("SELECT NOW()");
+    res.json({ db_time: r.rows[0].now });
+  } catch (e) {
+    console.error("DB error:", e);
+    res.status(500).json({ error: "No se pudo conectar a la DB" });
+  }
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Fixly backend running on port ${port}`));
+
 
