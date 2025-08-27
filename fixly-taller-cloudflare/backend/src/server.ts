@@ -105,5 +105,23 @@ app.get("/dbtest", async (_req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Fixly backend running on port ${port}`));
+import { Pool } from "pg";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+// Ruta de prueba DB
+app.get("/dbtest", async (_req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({ ok: true, time: result.rows[0] });
+  } catch (err) {
+    console.error("Error DB:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 
 
