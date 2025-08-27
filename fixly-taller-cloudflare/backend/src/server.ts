@@ -90,3 +90,19 @@ app.post("/webhook", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Fixly backend running on port ${port}`));
+app.get("/dbtest", async (_req, res) => {
+  try {
+    const client = new Client({ connectionString: process.env.DATABASE_URL });
+    await client.connect();
+    const result = await client.query("SELECT NOW()");
+    await client.end();
+
+    res.json({
+      ok: true,
+      now: result.rows[0].now,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ ok: false, error: (err as Error).message });
+  }
+});
