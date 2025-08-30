@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixly Taller - Registro Gratuito</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .floating-shapes::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            top: 10%;
+            right: 10%;
+            animation: float 6s ease-in-out infinite;
+        }
+        .floating-shapes::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: 10%;
+            left: 10%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.1);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+        .success-animation {
+            animation: successPulse 2s ease-in-out;
+        }
+        @keyframes successPulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .credential-box {
+            background: linear-gradient(135deg, #10B981, #059669);
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg floating-shapes relative overflow-x-hidden">
+    
+    <!-- Formulario de Registro -->
+    <div id="registroForm" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative z-10 transform transition-all duration-300">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-tools text-white text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Fixly Taller</h1>
+                <p class="text-gray-600">Registro Gratuito - 15 días de prueba</p>
+            </div>
+
+            <!-- Formulario -->
+            <form id="form" class="space-y-6">
+                <!-- Nombre del Taller -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-store mr-2 text-blue-500"></i>Nombre del Taller
+                    </label>
+                    <input type="text" id="nombreTaller" required 
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Ej: Electrónica García">
+                </div>
+
+                <!-- Nombre del Propietario -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-user mr-2 text-green-500"></i>Nombre del Propietario
+                    </label>
+                    <input type="text" id="nombrePropietario" required
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Ej: Juan García">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-envelope mr-2 text-purple-500"></i>Email
+                    </label>
+                    <input type="email" id="email" required
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="tu@email.com">
+                </div>
+
+                <!-- Teléfono -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-phone mr-2 text-orange-500"></i>Teléfono
+                    </label>
+                    <input type="tel" id="telefono" required
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="+54 11 1234-5678">
+                </div>
+
+                <!-- Ciudad -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>Ciudad
+                    </label>
+                    <input type="text" id="ciudad" required
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Buenos Aires">
+                </div>
+
+                <!-- Botón Submit -->
+                <button type="submit" 
+                        class="btn-submit w-full py-4 text-white font-bold rounded-lg text-lg">
+                    <i class="fas fa-rocket mr-2"></i>Crear Mi Cuenta Gratuita
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <p><i class="fas fa-shield-alt mr-1"></i>100% Seguro y Gratuito</p>
+                <p class="mt-1">Sin tarjeta de crédito requerida</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Confirmación -->
+    <div id="confirmacion" class="min-h-screen flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg relative z-10 success-animation">
+            <!-- Success Icon -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">¡Registro Exitoso!</h1>
+                <p class="text-gray-600">Tu cuenta de prueba ha sido creada</p>
+            </div>
+
+            <!-- Credenciales -->
+            <div class="credential-box rounded-xl p-6 text-white mb-6">
+                <h3 class="text-xl font-bold mb-4 text-center">
+                    <i class="fas fa-key mr-2"></i>Tus Credenciales de Acceso
+                </h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3">
+                        <div class="text-sm opacity-80">Usuario:</div>
+                        <div class="font-mono text-lg font-bold" id="usuarioGenerado">taller_demo_001</div>
+                    </div>
+                    
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3">
+                        <div class="text-sm opacity-80">Contraseña:</div>
+                        <div class="font-mono text-lg font-bold" id="passwordGenerado">fix_2024_ABC</div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center text-sm opacity-90">
+                    <i class="fas fa-clock mr-1"></i>15 días de prueba completa
+                </div>
+            </div>
+
+            <!-- Email Notification -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <div class="flex items-center text-blue-700">
+                    <i class="fas fa-envelope text-xl mr-3"></i>
+                    <div>
+                        <div class="font-semibold">Email Enviado</div>
+                        <div class="text-sm">Hemos enviado tus credenciales a <span id="emailDestino"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instrucciones -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h4 class="font-bold text-gray-800 mb-2">
+                    <i class="fas fa-info-circle mr-2"></i>Próximos Pasos:
+                </h4>
+                <ol class="text-sm text-gray-700 space-y-1">
+                    <li>1. <strong>Guarda</strong> tus credenciales en un lugar seguro</li>
+                    <li>2. <strong>Revisa</strong> tu email para confirmar el registro</li>
+                    <li>3. <strong>Ingresa</strong> al sistema con tus credenciales</li>
+                    <li>4. <strong>Explora</strong> todas las funcionalidades por 15 días</li>
+                </ol>
+            </div>
+
+            <!-- Botones -->
+            <div class="space-y-3">
+                <button onclick="irAlLogin()" 
+                        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Acceder al Sistema
+                </button>
+                
+                <button onclick="copiarCredenciales()" 
+                        class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-copy mr-2"></i>Copiar Credenciales
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <p><i class="fas fa-headset mr-1"></i>¿Necesitas ayuda? Contacta soporte</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let credencialesGeneradas = {};
+
+        // Event listener para el formulario
+        document.getElementById('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            procesarRegistro();
+        });
+
+        // Función para generar credenciales
+        function generarCredenciales() {
+            const nombreTaller = document.getElementById('nombreTaller').value;
+            const email = document.getElementById('email').value;
+            
+            // Generar usuario
+            const nombreLimpio = nombreTaller
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '')
+                .substring(0, 8);
+            const numeroAleatorio = Math.floor(Math.random() * 999) + 1;
+            const usuario = `taller_${nombreLimpio}_${numeroAleatorio.toString().padStart(3, '0')}`;
+            
+            // Generar contraseña
+            const letrasAleatorias = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const password = `fix_2024_${letrasAleatorias}`;
+            
+            return {
+                usuario: usuario,
+                password: password,
+                email: email
+            };
+        }
+
+        // Función para procesar el registro
+        function procesarRegistro() {
+            // Generar credenciales
+            credencialesGeneradas = generarCredenciales();
+            
+            // Mostrar loading
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creando cuenta...';
+            submitBtn.disabled = true;
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                mostrarConfirmacion();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Función para mostrar confirmación
+        function mostrarConfirmacion() {
+            // Ocultar formulario y mostrar confirmación
+            document.getElementById('registroForm').classList.add('hidden');
+            document.getElementById('confirmacion').classList.remove('hidden');
+            
+            // Llenar datos
+            document.getElementById('usuarioGenerado').textContent = credencialesGeneradas.usuario;
+            document.getElementById('passwordGenerado').textContent = credencialesGeneradas.password;
+            document.getElementById('emailDestino').textContent = credencialesGeneradas.email;
+            
+            // Simular envío de email
+            simularEnvioEmail();
+        }
+
+        // Función para simular envío de email
+        function simularEnvioEmail() {
+            console.log('📧 EMAIL SIMULADO ENVIADO:');
+            console.log('Para:', credencialesGeneradas.email);
+            console.log('Asunto: ¡Bienvenido a Fixly Taller! - Tus credenciales de acceso');
+            console.log('Usuario:', credencialesGeneradas.usuario);
+            console.log('Contraseña:', credencialesGeneradas.password);
+            
+            // Aquí podrías integrar con un servicio de email real
+            // como SendGrid, Mailgun, etc.
+        }
+
+        // Función para ir al login
+        function irAlLogin() {
+            // Guardar credenciales en localStorage para pre-llenar el login
+            localStorage.setItem('fixly_usuario_temp', credencialesGeneradas.usuario);
+            
+            // Redireccionar al login (cambiar URL según tu configuración)
+            window.open('https://rrdcvius.gensparkspace.com/', '_blank');
+        }
+
+        // Función para copiar credenciales
+        function copiarCredenciales() {
+            const texto = `Fixly Taller - Credenciales de Acceso\n\nUsuario: ${credencialesGeneradas.usuario}\nContraseña: ${credencialesGeneradas.password}\n\nAcceso: https://rrdcvius.gensparkspace.com/`;
+            
+            navigator.clipboard.writeText(texto).then(() => {
+                // Mostrar confirmación
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i>¡Copiado!';
+                btn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                btn.classList.add('bg-green-500', 'hover:bg-green-600');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    btn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                }, 2000);
+            }).catch(() => {
+                alert('No se pudo copiar. Por favor, anota manualmente las credenciales.');
+            });
+        }
+
+        // Validaciones en tiempo real
+        document.getElementById('nombreTaller').addEventListener('input', function() {
+            const preview = document.getElementById('previewUsuario');
+            if (preview) {
+                const nombreLimpio = this.value
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]/g, '')
+                    .substring(0, 8);
+                preview.textContent = `Usuario será: taller_${nombreLimpio}_###`;
+            }
+        });
+
+        // Mejorar UX con enter key
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const form = document.getElementById('form');
+                    form.requestSubmit();
+                }
+            });
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"976cbdce8e50f20c","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDlNPI3juNXTrVBKs0SB%2BIcVv3i95QABeqV2%2B8BSw%2Fe%2FiT%2FS89%2FevptWk68lfLWf9oFeZhTKRT%2BfR4SJ1PVDpVIGudz2kYMpeDRDnWb%2FPQrLoziPMc6lj2aFMHO3FILOFTjE%2FBDizbxQ7Y31w8TPXrMaAFMfmaQPud7T6weS0U%2BZ8QvOgf6UvbidyV6bR33coGPdkIbFAfdm3wtNLcsjD9fu5vJc3CN7chkt8IZ33AM7q%2BczN%2BiwsBG4iZ7ljbepACCCBaD%2FbS3OKnaH8PBl%2FVxiX7M%2FQ5dyTTp8WCPoUdXlcgONQTJ8ftagys6QpJ2Itp%2Fn4MsUfQ1NeXZ1j4U5Sg4q3neDZQKPsYwsP4C%2Bn%2FOI9DojPDnlhndD6ZEb%2FQ00IkQeTJJRFILhxVFMn4ImFHZBMrNCqppSozBgtb%2BL49%2BDH7QvuJNVEnLzUBecN%2BuabEek3jkfaMBWQACuqU7wo4oG2SUoyZwDfZM3vqEmga1P%2Fw%2BDSREQL5W5iBb%2BObhtyQU2w641EpYidyHzSnchhGDk%3D";
+        window.__genspark_locale = "es-ES";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDlNPI3juNXTrVBKs0SB+IcVv3i95QABeqV2+8BSw/e/iT/S89/evptWk68lfLWf9oFeZhTKRT+fR4SJ1PVDpVIGudz2kYMpeDRDnWb/PQrLoziPMc6lj2aFMHO3FILOFTjE/BDizbxQ7Y31w8TPXrMaAFMfmaQPud7T6weS0U+Z8QvOgf6UvbidyV6bR33coGPdkIbFAfdm3wtNLcsjD9fu5vJc3CN7chkt8IZ33AM7q+czN+iwsBG4iZ7ljbepACCCBaD/bS3OKnaH8PBl/VxiX7M/Q5dyTTp8WCPoUdXlcgONQTJ8ftagys6QpJ2Itp/n4MsUfQ1NeXZ1j4U5Sg4q3neDZQKPsYwsP4C+n/OI9DojPDnlhndD6ZEb/Q00IkQeTJJRFILhxVFMn4ImFHZBMrNCqppSozBgtb+L49+DH7QvuJNVEnLzUBecN+uabEek3jkfaMBWQACuqU7wo4oG2SUoyZwDfZM3vqEmga1P/w+DSREQL5W5iBb+ObhtyQU2w641EpYidyHzSnchhGDk=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
